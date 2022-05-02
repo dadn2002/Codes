@@ -92,7 +92,7 @@ if x == 'd':
         for character in x4:
             ascii_values.append(ord(character))
         for i in range(len(x4)):
-            # print(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223))
+            # print(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223)) # test
             # print(chr(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223)))
             textplain.write(chr(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)) % 223) + 32))
         temp3 = str(input("Want to save the Decrypted Text in a file?[y]/[n]")).lower()
