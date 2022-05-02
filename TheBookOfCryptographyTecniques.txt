@@ -1,0 +1,39 @@
+
+    Permutation Cipher
+        Baseado em permutações da lista [a,b,c,...,z], cuja função de S_26 é quantificada pela função seed(x)
+        Mapeamento tipo one to one e simétrica, função: F c S_26 embora ainda não implementei uma forma decom
+        posta da mesma em produtos externos de grupos alternados.
+    Multiplication Cipher
+        Determinado por e_k(m)=m*k mod p, facilmente quebrável. Sabendo de c e m, k = m^(-1)*c mod p, obtendo assim a
+        key da Cipher, chamamos a quebra da Cipher por uma única mensagem por PlainText Attack.
+    Shift or Caeser Cipher
+        Um grupo alternado puro, determinada por uma equação na forma e_k(m)=m+k mod p e d_k(c)=c-k mod p, em re
+        sumo, uma translação simples da mensagem base.
+    Affine Cipher
+        A combinação da Cipher de multiplicação e Shift, definida por e_k(m)=k_1*m+k_2 mod p
+    Hill Cipher
+        O exemplo anterior, onde substituimos o PlainText m, o CipherText c e k_2 por Vetores Coluna de n elementos
+        módulo p. Enquanto k_1 é uma matriz nxn módulo p.
+    Vernam's  OneTimePad Cipher
+        Definimos ab = 0 se a,b são iguais ou ab = 1 se a,b são diferentes, onde a,b são listas de valores boleanos,
+        a=1001,b=1101 -> ab=0100. Temos então a Cipher e_k(m)=km, d_k(c)=kc
+    Homophonic Cipher
+        Substituition Cipher onde e_k(m)={(m,k)_1,(m,k)_2,...}
+    Transposition Cipher
+        Os simbolos m do PlainText são permutados em ordem, diferente da Permutação onde existe um mapeamento e_k(m)=mk,
+        aqui poderiamos definir a nova função como e^k(m_n)=m_(n+k mod |M|) ou outra operação que não seja + ou mesmo de
+        forma arbitrária. Podemos ler este tipo de Cipher como separando M em linhas de ordem k e então lendo suas colu
+        nas, por exemplo: Davi Alves do Nascimento Azul -> davia -> dloio avnma veaez issnu adctl (é importante que k di
+                                        frf                     lvesd
+                                                           onasc
+                                                           iment
+                                                           oazul
+        vida |{}_m|
+    Stream Ciphers
+        Definimos k=k_1*k_2*k_3*...*k_n e a Cifra e_k(m_n)=m_n*k_n, embora seja mais fácil declararmos os fatores de k
+        partindo de um k_m inicial e gerando a medida que for necessário o novo k_(m+1) de forma recorrente. A fórmula
+        padrão para tal é z_(i+m)=sum^(m-1)_(j=0)c_jz_(i+j) mod 2, sendo uma recorrência de grau m, para todo i>=1 e c_0
+        c_1,...,c_(m-1) pre-especificados incrementos. Note que m precisa ser iniciado, isto é, o valor base da chave,
+        sendo válida somente para os |{}_m| de qualquer outra Cifra m_2.
+
+

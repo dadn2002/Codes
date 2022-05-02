@@ -1,0 +1,103 @@
+
+    Diffie Hellman - DLP and DHP - Key Exchange in Public Mean
+        Baseado no sistema de equações A=g^n mod p, ambos indivíduos acordam os valores g e p, publicamente, sendo o pri
+        meiro um grande inteiro de grande ordem prima modulo p e o segundo um grande primo. Publicam então, escolhendo
+        secretamente a_1 e a_2 os valores
+        A_1=g^(a_1) mod p e A_2=g^(a_2) mod p
+        Então ambos pegam o valor publico do outro
+        A_1^(a_2) mod p = A_2^(a_1) mod p = g^(a_1*a_2) mod p = K mod p
+        E então obtem a chave secreta da comunicação. É importante escolhermos p tendo no mínimo 1000 bits, visto que um
+        invasor pode pegar o valor publico de A_1,A_2,g e p e tentar solucionar o sistema:
+        g^m=A_1 mod p , g^n=A_2 mod p
+        para valores pequenos de p um valor pequeno de m/n irá ser reduzido mod p e teremos mapeado todas as possíveis
+        chaves e certamente encontramos o valor m/n que satisfaz a igualdade e ao saber o valor particular de m, pode se
+        fazer
+        A_2^m=g^(a_2*m)=g^(a_2*a_1)= K mod p
+        obtendo assim a key.
+        Chamamos de DLP o problema de encontrar o valor m que satisfaz a congruência
+        Chamamos de DHP o problema de encontrar o valor k=g^(a_1a_2) mod p sabendo somente g^(a_1)
+        Este modelo é caracterizado como simétrico visto que ambos os lados sabem o mesmo sobre a natureza da Key.
+    ELGamal PKC - DLP and DHP - PlainText Encrypted With Public A
+        É publicado um valor g e p (g primo modulo p e p um primo grande), o indivíduo alice escolhe uma chave privada a
+        e publica A=g^a mod p, o indivíduo bob querendo enviar a mensagem m ( 2 < m < p-1 ), escolhe um k mod p e envia
+        o par:
+        (c_1=g^k mod p,c_2=mA^k mod p).
+        Alice então Decrypt a mensagem de bob:
+        x=c_1^(a) mod p ->
+        x^(-1)*c_2 mod p ->
+        (c_1^a)^(-1)*c_2 mod p->
+        (g^ak)^(-1)*mA^k mod p ->
+        (g^ak)^(-1)*m(g^a)^k mod p ->
+        m mod p
+    RSA PKC - PlainText Encrypted with public
+        Baseado na equação x^e = c mod N.
+        Algoritmo:
+            1. Bob escolhe primos p e q
+            2. Escolhe encryption exponent e com gcd(e,(p-1)(q-1)) = 1
+            3. Publica N = pq, e
+            4. Alice escolhe PlainText m
+            5. Usa Chave Pública (N,e) de bob para computar c = m^e mod N
+            6. Envia CipherText c to bob
+            7. Bob computa d satisfazendo ed = 1 mod((p-1)(q-1))
+            8. Computa m' = c^d mod N
+            9. Le m' = m
+    Discrete Logarithms Problem (DLP) BreakTime
+        Seja f(x),g(x) funções de domínio positivo, dizemos que f é big-O de g e escrevemos:
+        f(x)=O(g(x))
+        se existem constantes positivas c e C tais que
+        f(x)<=cg(x) para todo x>= C
+        Se no nosso DLP escolhemos p entre 2^k e 2^(k+1), então g,h e p tem no máximo k bits e podemos podemos quebrar a
+        Cipher em O(p)=O(2^k) passos, isto é, tempo exponencial. Se podemos quebrar uma Cipher em O(k^A) (onde k é o nu
+        mero de bits que a chave pode possuir) passos, dizemos então que é necessário um tempo polinomial de grau A para
+        encontrar a chave. Temos ainda que DLP em F_p sobre adição (e_k(m)=m*k mod p) demora O(log p) para ser quebrado.
+        Consideramos uma Cifra de regra m^k=c, onde m está num conjunto M de símbolos. Isto implica que com O(|M|) pas
+        sos é possível quebrar a Cifra(Isto é, mapear todas as combinações)
+        Em ambos os casos, considerando o método da força bruta.
+    Shank's Babystep-Giantstep Algorithm - CipherBreak DLP
+        É um método de colisão específico que otimiza o método de força bruta nas Cipher baseados no DLP.
+        Seja G um grupo e g em G um elemento de ordem N>=2. Podemos resolver o DLP g^x=h em O(sqrt(N)log(n)) passos:
+        1. Seja n = 1 + floor(sqrt(N)).
+        2. Crie duas listas:
+            List 1: e,g,g^2,g^3,...,g^n
+            List 2: h,hg^(-n),hg^(-2n),...,hg^(-n^2)
+        3. Ache os elementos em comum g^i = hg^(-jn)
+        4. Então x = i+jn é uma solução de g^x = h
+    The Pohlig-Hellman Algorithm - CipherBreak DLP
+        É um método de fatoração da chave em sistemas mais simples.
+        Dado a equação g^x=h mod p, sabemos que |G|=p, x<p e |g|=p-1. Como
+        |g|=q_1^(e_1)*q_2^(e_2)*...*q_t^(e_t)
+        onde q_i são primos, podemos solucionar o DLP inicial por:
+        1. Para todo 1 <= i <= t, tome
+            g_i = g^(|g|/(q_i^(e_i))) e h_i=h^(|g|/(q_i^(e_i)))
+            g_i^y_i = h_i
+        2. Resolva o sistema de congruências
+            x = y_1 mod q_1^(e_1), x = y_2 mod q_2^(e_2), ..., x = y_t mod q_t^(e_t)
+        E como x = k = key usualmente, obtemos então a chave. E de imediato este algoritmo apresenta um desafio: Quebrar
+        Cifras que utilizam de primos pequenos! Note que qualquer p>2 pode ser reescrito como p = 2q+1, logo, no mínimo,
+        devemos escolher um q primo grande o suficiente para que a fatoração de p-1 (since a^(p-1)=1 mod p) não seja tão
+        trivial assim.
+        Temos como exemplo:
+        23^x = 9689 mod 11251
+        p = 11251, g = 23, h = 9689, N = p - 1 = 2*3^2*5^4
+
+        q e g^((p-1)/q^e) g^((p-1)/q^e) (g^((p-1)/q^e))^x=g^((p-1)/q^e) for x
+        2 1     11250        11250                       1
+        3 2      5029        10724                       4
+        5 4      5448         6909                      511
+
+        x = 1 mod 2, x = 4 mod 3^2, x = mod 5^4
+        x = 4261
+    Miller-Rabin Test Algorithm - CipherBreak UFD
+        Um algoritmo para verificar se determinado número é produto de primos ou não
+            Sendo n o número para ser testado e a qualquer inteiro.
+            1. Se n é par ou 1 < gcd(a,n) < n, n é composito, break.
+            2. n - 1 = 2^kq para algum q impar
+            3. a = a^q mod n
+            4. Se a = 1 mod n, escolha outro a e volte pra 1.
+            5. Loop i = 0,1,2,...,k-1
+                6. Se a = -1 mod n, escolha outro a e volte pra 1.
+                7. a = a^2 mod n
+            8. i = i + 1, volte pra 5
+            9. n é composito
+        E não é necessário testar todos os inteiros visto que no intervalo (1,n-1) existem no mínimo 75% números que sa
+        tisfarão o algoritmo se n for compósito.
