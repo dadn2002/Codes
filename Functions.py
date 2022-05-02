@@ -53,3 +53,4 @@ def congruence(a, b, c, d, e, f):
                 while a % c != 0:
                     a = a + f
                 return (a / c) % f
+

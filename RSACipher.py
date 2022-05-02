@@ -1,7 +1,10 @@
 import sys
+import subprocess
+import os
 import itertools
 import random
 import codecs
+import time
 from random import seed
 from io import StringIO
 from random import randint
@@ -25,11 +28,15 @@ def search(xlist, platform):
     return -1
 
 
-print("You want Encrypt[e] or Decrypt[d] your message?")
-x = input()
+subprocess.Popen("Teste.py", shell=True)
+# Funciona mas aparentemente é estritamente em segundo plano.
+# Work perfectly as expected
+
+print("Right now this code read 223 Symbols, it's just for educational purposes")
+x = input("You want Encrypt[e] or Decrypt[d] your message?")
 x = x.lower()
 
-#for i in range(33, 255):  # ASCII List
+# for i in range(33, 255):  # ASCII List
 #    with open("debug4" + ".txt", "a", encoding="utf-8") as f1:
 #        f1.write(chr(i))
 
@@ -92,79 +99,44 @@ if x == 'd':
         for character in x4:
             ascii_values.append(ord(character))
         for i in range(len(x4)):
-            # print(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223)) # test
+            # print(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223))
             # print(chr(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223)))
-            textplain.write(chr(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)) % 223) + 32))
+            textplain.write(chr(int((congruence(int(ascii_values[i] - 32), 1, int(x3), 'd', 0, 223)) % 223) + 32))
         temp3 = str(input("Want to save the Decrypted Text in a file?[y]/[n]")).lower()
         if temp3 == 'y':
             temp4 = str(input("What's the .txt file name?"))
             with open(temp4 + ".txt", "w", encoding='utf-8') as f1:
                 f1.write(textplain.getvalue())
                 print("SAVE YOUR KEY: ", x3)
-
         else:
             print("key:", x3, "Text:", textplain.getvalue())
     if x2 == 'n':
         print("I actually give up for now trying to break that, it's too abstract for me")
-        """
-            if not tempv:
-                x4 = str(input("What's the text?"))
-            temp3 = str(input("Want to save the Decrypted Text in a file?[y]/[n]")).lower()
-            if temp3 == 'y':
-                temp4 = str(input("What's the .txt file name?"))
+        if not tempv:
+            x4 = str(input("What's the text?"))
+        temp3 = str(input("Want to save the Decrypted Text in a file?[y]/[n]")).lower()
+        if temp3 == 'y':
+            temp4 = str(input("What's the .txt file name?"))
+        for x3 in range(1, 223):
             textplain = ""
             textplain = StringIO()
-            chrnumber = []
-            chrcharac = []
-            with open(temp4 + ".txt", "a", encoding='utf-8') as f1:
-                f1.write("Letters Counter Table\n")
-            for i in range(0, 26):
-                temp5n = x4.count(chr(97 + i))
-                chrnumber.append(temp5n)  # Lowest to The Highest Value
-                chrcharac.append(temp5n)  # Original List i don't know if it'll be useful
-                chrnumber.sort()
-                if temp3 == 'y':
-                    with open(temp4 + ".txt", "a", encoding='utf-8') as f1:
-                        f1.write(chr(97 + i))
-                        f1.write(": ")
-                        f1.write(str(x4.count(chr(97 + i))))
-                        f1.write(" ")
-                        if (i + 1) % 7 == 0:
-                            f1.write('\n')
-                else:
-                    print("Clearly you don't like your screen, insert the feedback in a .txt thx")
-            with open(temp4 + ".txt", "a", encoding='utf-8') as f1:
-                f1.write("\nFirst Sub [")
-                f1.write("e")
-                f1.write("]\n")
-            xaux = []
+            ascii_values = []
             for character in x4:
-                xaux.append(ord(character))
-            for j in range(0, 26):
-                for k in range(0, 26):
-                    for i in range(len(xaux)):
-                        print(chrnumber[25-k])
-                        print(xaux.count(chr(97 + i)))
-                        if chrnumber[25-k] == xaux.count(chr(97 + i)):
-                            xaux[i] = EngList[j]
-                            with open(temp4 + ".txt", "a", encoding='utf-8') as f1:
-                                f1.write(xaux[i])
-                                f1.write(" ")
-            """
-        # ascii_values = []
-        # countertext = []
-        # Base = list(range(1, 27))
-        # Encp = random.sample(Base, len(Base))
-        # for character in x4:
-        #    ascii_values.append(ord(character))
-        # for i in range(len(x4)):
-        #    ascii_values[i] = ascii_values[i] - 96
-        #    textplain.write(chr(int(search(Encp, ascii_values[i]) + 97)))
-        # if temp3 == 'y':
-        #    with open(temp4 + ".txt", "w", encoding='utf-8') as f1:
-        #        f1.write(textplain.getvalue())
-        # else:
-        #     print("key:", "Text:", textplain.getvalue())
+                ascii_values.append(ord(character))
+            for i in range(10):
+                # print(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223))
+                # print(chr(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223)))
+                textplain.write(chr(int((congruence(int(ascii_values[i] - 32), 1, int(x3), 'd', 0, 223)) % 223) + 32))
+            if temp3 == 'y':
+                with open(temp4 + ".txt", "a", encoding='utf-8') as f1:
+                    f1.write("Key: [")
+                    f1.write(str(x3))
+                    f1.write("] PlainText: ")
+                    f1.write(textplain.getvalue())
+                    f1.write("\n")
+            else:
+                print("Key: [", x3, "] PlainText: ", textplain.getvalue(), "\n")
+            time.sleep(0.1)
     if x2 != 'y' and x2 != 'n':
         print("a")
 if x != 'e' and x != 'd':
