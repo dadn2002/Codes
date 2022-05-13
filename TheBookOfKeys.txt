@@ -100,4 +100,11 @@
             8. i = i + 1, volte pra 5
             9. n é composito
         E não é necessário testar todos os inteiros visto que no intervalo (1,n-1) existem no mínimo 75% números que sa
-        tisfarão o algoritmo se n for compósito.
+        tisfarão o algoritmo se n for compósito. Se a hipótese de Riemman é válida, então existe a<=2(ln(n))^2 que satis
+        faça o teste de compósito.
+    The Prime Number Theorem - Primality of Numbers
+        lim pi(X)/(X/ln(X)) = 1 x to infinity -> pi(X)=X/ln(X) onde pi(X) é a função número de primos no intervalo 2<=p<=X.
+        Um exemplo, como não queremos números que são múltiplos de 2,3,5,... podemos então escolher um número no formato:
+        2*3*5*...*11*K+1139=2310K+1139. Onde gcd(1139,2310)=1 e K é um inteiro qualquer. Neste caso, teriamos 2/1*3/2*5/4*
+        7/6*11/10*1/ln(N)≃4.8/ln(N). Escolhendo um número com tamanho aproximado de 2^1024, teriamos então uma densidade de
+        primos de 0.67%.
