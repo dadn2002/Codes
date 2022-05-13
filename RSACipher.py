@@ -13,12 +13,12 @@ from FrequencySymbolsTable import FreqSymEng
 from Functions import congruence
 from FrequencySymbolsTable import EngList
 from FrequencySymbolsTable import Letters
-from nltk.corpus import words
+# from nltk.corpus import words
 
 Eng = FreqSymEng
 dt = datetime.now()
 ts = datetime.timestamp(dt)
-word_list = words.words()
+# word_list = words.words()
 
 
 def search(xlist, platform):
@@ -28,7 +28,7 @@ def search(xlist, platform):
     return -1
 
 
-subprocess.Popen("Teste.py", shell=True)
+# subprocess.Popen("Teste.py", shell=True)
 # Funciona mas aparentemente é estritamente em segundo plano.
 # Work perfectly as expected
 
@@ -123,7 +123,7 @@ if x == 'd':
             ascii_values = []
             for character in x4:
                 ascii_values.append(ord(character))
-            for i in range(10):
+            for i in range(100):
                 # print(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223))
                 # print(chr(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223)))
                 textplain.write(chr(int((congruence(int(ascii_values[i] - 32), 1, int(x3), 'd', 0, 223)) % 223) + 32))
