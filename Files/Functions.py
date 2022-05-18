@@ -1,6 +1,7 @@
 import math
 import time
 import numpy as np
+import matplotlib.pyplot as plt
 from scipy.linalg import solve
 import sys
 from scipy import linalg
@@ -149,6 +150,12 @@ def row_echelon(a):
     return np.vstack([a[:1], np.hstack([a[1:, :1], b])])
 
 
+def axb(a, b, p):
+    """ Solve Ax=b mod p when the usual np.linalb.solve or .stdsqr or other methods does not work properly"""
+    # The main purpose of this function is facdifsquare in a optimal way
+    
+
+
 def facdifsquare(n, list1: int, s) -> int:
     """ Factorization of n using x^2-y^2=(x+y)(x-y) identity"""
     # Use this function in a smart way, big n with small s and small n with big s... Does not mix or your computer may
@@ -195,11 +202,24 @@ def facdifsquare(n, list1: int, s) -> int:
                 # print(int(listaux2[k][i]))
                 # print('')
         print("MATRIX DONE")
+        # listaux2 = row_echelon(listaux2)
+        listaux4 = np.zeros((len(listp), 1))
+        listaux5 = np.zeros((1, len(listp)))
+        for i in range(0, len(listp)):
+            for j in range(0, len(listp) + 5):
+                da = float(listaux2[i][j])
+                if not da.is_integer():
+                    listaux2[i][j] = listaux2[i][j]*2
+                if listaux2[i][j] % 2 == 0:
+                    listaux2[i][j] = 0
+                else:
+                    listaux2[i][j] = 1
+        print('')
         print(listaux2)
-        listaux4 = np.zeros((len(listp)+5, 1))
         print(listaux4)
-        x = np.linalg.solve(listaux2, listaux4)
-        print(x)
+        c = np.linalg.lstsq(listaux2, listaux4)
+        for i in range(15):
+            print("x", i, ": ", c[0][i])
 
     else:
         # If the number is small enough for us to check each case until solve the identity
