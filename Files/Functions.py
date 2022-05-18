@@ -153,7 +153,7 @@ def row_echelon(a):
 def axb(a, b, p):
     """ Solve Ax=b mod p when the usual np.linalb.solve or .stdsqr or other methods does not work properly"""
     # The main purpose of this function is facdifsquare in a optimal way
-    
+    print('')
 
 
 def facdifsquare(n, list1: int, s) -> int:
