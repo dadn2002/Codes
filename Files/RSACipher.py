@@ -1,3 +1,4 @@
+import math
 import sys
 import subprocess
 import os
@@ -5,19 +6,24 @@ import itertools
 import random
 import codecs
 import time
+import numpy as np
+import Functions
 from random import seed
 from io import StringIO
 from random import randint
 from datetime import datetime
+
 from FrequencySymbolsTable import FreqSymEng
-from Functions import congruence
 from FrequencySymbolsTable import EngList
 from FrequencySymbolsTable import Letters
+
 # from nltk.corpus import words
 
 Eng = FreqSymEng
 dt = datetime.now()
 ts = datetime.timestamp(dt)
+
+
 # word_list = words.words()
 
 
@@ -31,6 +37,16 @@ def search(xlist, platform):
 # subprocess.Popen("Teste.py", shell=True)
 # Funciona mas aparentemente é estritamente em segundo plano.
 # Work perfectly as expected
+# os.startfile('Teste.py') # Agradecimentos a @Breno pelo auxílio
+
+
+list = []
+print(Functions.facsmall(9788111, 1000))
+print(Functions.facdifsquare(9788111, list, 50))
+# list1 = Functions.facdifsquare(21347829291, list1)
+# list1.sort()
+# print(list1)
+
 
 print("Right now this code read 223 Symbols, it's just for educational purposes")
 x = input("You want Encrypt[e] or Decrypt[d] your message?")
@@ -48,7 +64,7 @@ if x == 'e':
     temp = str(input("Want to Encrypt a File[y]/[n]?"))
     if temp == 'y':
         temp1 = str(input("What's the .txt file name?"))
-        with open(temp1 + ".txt", "r", encoding='utf-8') as f:
+        with open("Text/" + temp1 + ".txt", "r", encoding='utf-8') as f:
             textplain = str(f.read().replace('\n', ''))
     else:
         textplain = str(input("Insert your text: "))
@@ -74,7 +90,7 @@ if x == 'e':
     temp2 = str(input("Want to save in a .txt file?[y]/[n]")).lower()
     if temp2 == 'y':
         temp3 = str(input("What's the .txt file name?"))
-        with open(temp3 + ".txt", "w", encoding='utf-8') as f1:
+        with open("Text/" + temp3 + ".txt", "w", encoding='utf-8') as f1:
             f1.write(textcyphe.getvalue())
             print("SAVE YOUR KEY: ", key)
         sys.exit("Complete")
@@ -85,7 +101,7 @@ if x == 'd':
     tempv = False
     if temp == 'y':
         temp1 = str(input("What's the name of the file?"))
-        with open(temp1 + ".txt", "r", encoding='utf-8') as f1:
+        with open("Text/" + temp1 + ".txt", "r", encoding='utf-8') as f1:
             x4 = str(f1.read().replace('\n', ''))
             tempv = True
     x2 = input("Do you know the key? [y]/[n] ").lower()
@@ -101,11 +117,12 @@ if x == 'd':
         for i in range(len(x4)):
             # print(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223))
             # print(chr(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223)))
-            textplain.write(chr(int((congruence(int(ascii_values[i] - 32), 1, int(x3), 'd', 0, 223)) % 223) + 32))
+            textplain.write(
+                chr(int((Functions.congruence(int(ascii_values[i] - 32), 1, int(x3), 'd', 0, 223)) % 223) + 32))
         temp3 = str(input("Want to save the Decrypted Text in a file?[y]/[n]")).lower()
         if temp3 == 'y':
             temp4 = str(input("What's the .txt file name?"))
-            with open(temp4 + ".txt", "w", encoding='utf-8') as f1:
+            with open("Text/" + temp4 + ".txt", "w", encoding='utf-8') as f1:
                 f1.write(textplain.getvalue())
                 print("SAVE YOUR KEY: ", x3)
         else:
@@ -126,9 +143,10 @@ if x == 'd':
             for i in range(100):
                 # print(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223))
                 # print(chr(int((congruence(int(ascii_values[i]-32), 1, int(x3), 'd', 0, 223)+32) % 223)))
-                textplain.write(chr(int((congruence(int(ascii_values[i] - 32), 1, int(x3), 'd', 0, 223)) % 223) + 32))
+                textplain.write(
+                    chr(int((Functions.congruence(int(ascii_values[i] - 32), 1, int(x3), 'd', 0, 223)) % 223) + 32))
             if temp3 == 'y':
-                with open(temp4 + ".txt", "a", encoding='utf-8') as f1:
+                with open("Text/" + temp4 + ".txt", "a", encoding='utf-8') as f1:
                     f1.write("Key: [")
                     f1.write(str(x3))
                     f1.write("] PlainText: ")

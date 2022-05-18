@@ -108,3 +108,54 @@
         2*3*5*...*11*K+1139=2310K+1139. Onde gcd(1139,2310)=1 e K é um inteiro qualquer. Neste caso, teriamos 2/1*3/2*5/4*
         7/6*11/10*1/ln(N)≃4.8/ln(N). Escolhendo um número com tamanho aproximado de 2^1024, teriamos então uma densidade de
         primos de 0.67%.
+    Pollard's p-1 factorization algorithm - Primality of Numbers
+        No RSA N=pq, porém se p-1 ou q-1 são fatoráveis em pequenos primos, o algoritmo a seguir:
+            1. a = 2 ( ou outro valor qualquer )
+            2. Loop n = 2,3,4,...
+                3. Set a = a^n mod N
+                4. d = gcd(a-1,N)
+                5. se 1 < d < N, return d (d é fator não trivial de N)
+            6. n = n + 1, volte pra 2
+        Onde que se N é fatorável em primos pequenos, um n pequeno solucionará o problema e obteremos então dois fatores,
+        tomamos N = 13927189 e aplicamos o algoritmo como exemplo:
+            gcd(2^(9!)-1, N) = 1
+            gcd(2^(10!)-1, N) = 1
+            gcd(2^(11!)-1, N) = 1
+            ...
+            gcd(2^(14!)-1, N) = 3823 = p
+        Imediatamente N/3823 = 3643 = q e obtemos um segundo fator não trivial, os fatorando: 3823-1 = 2*3*7^2*13 e
+        3643-1 = 2*3*607 (Embora não tão amigável o segundo).
+    Factorization via Difference of Squares - Primality of Number
+        Seguindo a relação x^2-y^2=(x+y)(x-y), seguimos o algoritmo:
+            1. Encontre vários inteiros a_1,a_2,...,a_r tais que c_i=a_i^2 mod N é fatorável como um produto de pequenos
+            primos.
+            2. Pegue todas as combinações de produtos dos c_i's tais que formem um quadrado perfeito.
+            3. Sendo a o produto destes c_i's seletos, calcule o d = gcd(N,a-b) sabendo que a^2 = b^2 mod N. Existe uma
+            grande chance de obtermos um fator não trivial de N.
+            Exemplo: N = 9788111
+            Verificamos os numeros a tais que a^2 mod N é um produto de primos pequenos (Supomos os <50), isso é o conjun
+            to: {2,3,5,7,11,13,17,19,23,29,31,37,41,43,47}, de tamanho 15, listamos então os 20 primeiros números maiores
+            que sqrt(9788111)=3128.9 com a propriedade acima. PAGINA 143 Table 3.5 Factorization of N = 9788111.
+            Teremos então a matriz onde as colunas indica os expoentes mod 2 dos fatores de cada número que satisfazem to
+            dos os requisitos:
+            1 0 1 0 0 1 1 1 1 1 0 0 1 1 1 1 0 0 0 1   x_1
+            0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 1 0 0 1 1   x_2
+            1 0 0 1 1 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0   x_3
+            0 0 1 0 0 1 0 0 1 1 1 1 0 1 0 0 0 0 0 1   x_4
+            1 1 0 0 1 0 0 1 1 0 1 0 0 0 0 0 0 0 0 0   x_5
+            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0   x_6
+            0 1 0 0 0 1 1 1 0 0 0 1 0 1 1 0 1 1 0 0   x_7
+            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 * x_8 = vector 0
+            1 0 0 0 0 0 1 1 0 0 1 0 0 0 0 0 0 0 1 0   x_9
+            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0   x_10
+            0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 1 0   x_11
+            0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1   x_12
+            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0   x_13
+            0 0 1 0 1 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0   x_15
+            0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0   x_16
+                                                      x_17
+                                                      x_18
+                                                      x_19
+                                                      x_20
+            Solucionando o sistema linear Ax=b descobrimos que temos 8 variáveis livres e, portanto, 8 soluções canônicas
+            as quais fornecem 8 possíveis fatorações de N PAGINA 145 Table 3.6.
