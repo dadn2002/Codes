@@ -1,5 +1,93 @@
-!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþ
-#&),/258;>ADGJMPSVY\_behknqtwz}¡¤§ª­°³¶¹¼¿ÂÅÈËÎÑÔ×ÚÝàãæéìïòõøûþāĄćĊčĐēĖęĜğĢĥĨīĮıĴķĺĽŀŃņŉŌŏŒŕŘśŞšŤŧŪŭŰųŶŹżſƂƅƈƋƎƑƔƗƚƝƠƣƦƩƬƯƲƵƸƻƾǁǄǇǊǍǐǓǖǙǜǟǢǥǨǫǮǱǴǷǺǽȀȃȆȉȌȏȒȕȘțȞȡȤȧȪȭȰȳȶȹȼȿɂɅɈɋɎɑɔɗɚɝɠɣɦɩɬɯɲɵɸɻɾʁʄʇʊʍʐʓʖʙʜʟʢʥʨʫʮʱʴʷʺ
-!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞ 	
-#&),/258;>ADGJMPSVY\_behknqtwz}¡¤§ª­°³¶¹¼¿ÂÅÈËÎÑÔ×ÚÝàãæéìïòõøûþ"%(+.147:=@CFILORUX[^adgjmpsvy| £¦©¬¯²µ¸»¾ÁÄÇÊÍÐÓÖÙÜßâåèëîñô÷úý!$'*-0369<?BEHKNQTWZ]`cfilorux{~¢¥¨«®±´·º½ÀÃÆÉÌÏÒÕØÛÞáäçêíðóöùü
-!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþ
+Teoria Eletromagnética - PROGRAMA
+
+1 - Campos Eletromagnéticos Estáticos no Tempo (Eletrostática e Magnetostática)
+Lei de Coulomb e intensidade de campo elétrico;
+Densidade de fluxo elétrico; Lei de Gauss; Divergência;
+Diferença de potencial; Gradiente; Dipolo elétrico;
+Densidade de energia no campo eletrostático; Capacitância
+Leis básicas da magnetostática (Biot-Savart e Lei de Ampère);
+Rotacional e teorema de Stokes; Densidade de fluxo magnético;
+Equações de Maxwell para caso estático; Potenciais auxiliares;
+Campos em meios materiais (caso estático); condições de contorno.
+
+2 - Equações de Laplace e Poisson
+Solução analítica em problemas unidimensionais;
+Solução numérica (Método das Diferenças Finitas);
+Função de Green e aplicação na solução das equações de Poisson e Laplace;
+Solução numérica (Métodos Integrais - Método de Galerkin);
+Aplicação em problemas práticos.
+
+3 - Teoria Eletromagnética Aplicada a Eletrotécnica
+Força magnética e torque; Circuito magnético;
+Energia potencial magnética; Indutância;
+Aplicação em problemas de ordem prática.
+
+4 - Campos Eletromagnéticos Variáveis no Tempo
+Lei de Faraday; Equações de Maxwell (caso geral);
+Potenciais retardados;
+Representação fasorial de campos variando harmonicamente no tempo;
+Equações de Maxwell para campos variando harmonicamente no tempo.
+Vetor de Poynting;
+
+5 - Propagação de Ondas Planas
+Ondas planas no espaço livre;
+Propagação de ondas planas em meios dielétricos;
+Efeito pelicular; Reflexão de ondas planas;
+Taxa de onda estacionária.
+
+Sinais e Sistemas Lineares
+
+- INTRODUÇÃO AOS SINAIS E SISTEMAS DINÂMICOS LINEARES 
+- REPRESENTAÇÃO MATEMÁTICA DE SINAIS CONTÍNUOS E DISCRETOS 
+- SÉRIE CONTÍNUA E DISCRETA DE FOURIER 
+- TRANSFORMADA CONTÍNUA E DISCRETA DE FOURIER 
+- REPRESENTAÇÃO MATEMÁTICA DE SISTEMAS CONTÍNUOS E DISCRETOS 
+- EQUAÇÕES DIFERENCIAIS ORDINÁRIAS 
+- EQUAÇÕES DIFERENÇAS 
+- VARIÁVEIS DE ESTADO 
+- TRANSFORMADA DE LAPLACE 
+- TRANSFORMADA Z 
+- AMOSTRAGEM E RECONSTRUÇÃO DE SINAIS CONTÍNUOS.
+
+Física Experimental II
+
+01 - INSTRUMENTOS DE MEDIDAS ELÉTRICAS - Usos e Cuidados
+Objetivos: aprender como utilizar um multiteste ou multímetro para medir a diferença de potencial (Tensão ou Voltagem), resistência e corrente elétrica.;
+02 - INSTRUMENTOS DE MEDIDAS ELÉTRICAS
+Objetivos: construir um amperímetro, um voltímetro e um ohmímetro, e entender o funcionamento desses aparelhos para compreender os aparelhos comerciais.
+03 - SUPERFÍCIES EQUIPOTENCIAIS
+Objetivos: traçar as equipotenciais para uma dada distribuição de cargas, traçar as linhas de campo e calcular o campo elétrico.
+04 - CIRCUITOS LINEARES
+Objetivos: verificação experimental da lei de Ohm e das leis de Kirchhoff.
+05 - CIRCUITO RC
+Objetivos: verificar a dependência temporal da corrente, durante os processos de carga e descarga, no capacitor, num circuito RC.
+06 - OSCILOSCÓPIO
+Objetivos: Aprender a efetuar medidas de tensão e freqüência com o osciloscópio, bem como a composição de sinais e figuras Lissajous.
+
+Métodos Computacionais em Engenharia
+
+1.Introdução:
+1.Estudo dos Erros;
+2.Aritmética computacional.
+2.Resolução Numérica de Sistemas Lineares:
+1.Métodos diretos: Gauss, Gauss-Jordan, Pivoteamento Parcial, Fatoração L.U.;
+2.Métodos indiretos: Jacobi, Gauss-Siedel.
+3.Raízes de Equações Algébricas e Transcedentes:
+1.Métodos da Bisseção, Cordas, Pégaso, Iteração Linear, Newton, etc.
+4.Interpolação:
+1.Linear, Quadrática, Interpolação de Lagrange, Diferenças Divididas e Diferenças Finitas;
+2.Interpolação por splines.
+5.Ajuste de curvas:
+1.Ajustes Linear Simples e Linear Múltiplo;
+6.Diferenciação e Integração Numérica:
+1.Técnicas de diferenciação numérica;
+2.Regra dos Trapézios, Primeira Regra de Simpson, Segunda Regra de Simpson, Extrapolação de Richardson, Integração Múltipla, Quadratura Gaussiana.
+7.Resolução Numérica de Equações Diferenciais Ordinárias:
+1.Problemas de Valor Inicial: Métodos de Runge-Kutta, Métodos baseados em Integração Numérica;
+2.Problemas de Valor de Contorno.
+8.Resolução Numérica de Equações Diferenciais Parciais:
+1.EDPs Elípticas, Parabólicas e Hiperbólicas;
+2.Método dos Elementos Finitos.
+9.Introdução à Otimização:
+1.Mínimos Locais e Globais;
+2.Método do Gradiente.

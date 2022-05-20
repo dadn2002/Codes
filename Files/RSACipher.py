@@ -40,13 +40,11 @@ def search(xlist, platform):
 # os.startfile('Teste.py') # Agradecimentos a @Breno pelo auxílio
 
 
-list = []
-print(Functions.facsmall(9788111, 1000))
-print(Functions.facdifsquare(9788111, list, 50))
-# list1 = Functions.facdifsquare(21347829291, list1)
+# print(Functions.facsmall(9788111, 1000))
+# print(Functions.facdifsquare(50729878697299, 10000))
 # list1.sort()
 # print(list1)
-
+os.startfile(Functions)
 
 print("Right now this code read 223 Symbols, it's just for educational purposes")
 x = input("You want Encrypt[e] or Decrypt[d] your message?")
