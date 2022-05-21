@@ -8,49 +8,47 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 import googleapiclient.discovery
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
+import datetime
 
 # run pip install google-auth-oauthlib in your python3 terminal to get googleauth lib
 # MAX DIVISION METHODS IS n = 2147483647
 sys.setrecursionlimit(2147483647)  # Just to be safe, linalg in facdifsquare need really deep recursion
 
-""" SETTING UP THE GMAIL FEEDBACK SPAM SYSTEM """
 
-SCOPES = ['https://www.googleapis.com/auth/gmail.send',
-          'https://www.googleapis.com/auth/gmail.modify']
-# home_dir = os.path.expanduser('~')
-# json_path = os.path.join(home_dir, 'Downloads', 'credentials.json')
-# flow = InstalledAppFlow.from_client_secrets_file(json_path, SCOPES)
-# creds = flow.run_local_server(port=0)
-# pickle_path = os.path.join(home_dir, 'gmail.pickle')
-# with open(pickle_path, 'wb') as token:
-#     pickle.dump(creds, token)
+def gmail(text):
+    """ SETTING UP THE GMAIL FEEDBACK SPAM SYSTEM """
+    SCOPES = ['https://www.googleapis.com/auth/gmail.send',
+              'https://www.googleapis.com/auth/gmail.modify']
+    home_dir = os.path.expanduser('~')
+    # RUN THIS SEQUENCE OF COMMANDS AT LEAST ONE TIME BEFORE USAGE
+    # json_path = os.path.join(home_dir, 'Downloads', 'credentials.json')
+    # flow = InstalledAppFlow.from_client_secrets_file(json_path, SCOPES)
+    # creds = flow.run_local_server(port=0)
+    # pickle_path = os.path.join(home_dir, 'gmail.pickle')
+    # with open(pickle_path, 'wb') as token:
+    #     pickle.dump(creds, token)
+    # Get the path to the pickle file
+    pickle_path = os.path.join(home_dir, 'gmail.pickle')
+    creds = pickle.load(open(pickle_path, 'rb'))
+    service = googleapiclient.discovery.build('gmail', 'v1', credentials=creds)
+    my_email = 'nmdavialves@gmail.com'
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = 'python ' + str(datetime.datetime.now())
+    msg['From'] = f'{my_email}'
+    msg['To'] = f'{my_email}'
+    msgPlain = str(text)
+    # msgHtml = '<b>This is my first email!</b>' # Turn characters 'thick'
+    msg.attach(MIMEText(msgPlain, 'plain'))
+    # msg.attach(MIMEText(msgHtml, 'html'))
+    raw = base64.urlsafe_b64encode(msg.as_bytes())
+    raw = raw.decode()
+    body = {'raw': raw}
 
-# Get the path to the pickle file
-home_dir = os.path.expanduser('~')
-pickle_path = os.path.join(home_dir, 'gmail.pickle')
-creds = pickle.load(open(pickle_path, 'rb'))
-service = googleapiclient.discovery.build('gmail', 'v1', credentials=creds)
-my_email = 'nmdavialves@gmail.com'
-msg = MIMEMultipart('alternative')
-msg['Subject'] = 'Great Day'
-msg['From'] = f'{my_email}'
-msg['To'] = f'{my_email}'
-msgPlain = 'This is my first email!'
-msgHtml = '<b>This is my first email!</b>'
-msg.attach(MIMEText(msgPlain, 'plain'))
-msg.attach(MIMEText(msgHtml, 'html'))
-raw = base64.urlsafe_b64encode(msg.as_bytes())
-raw = raw.decode()
-body = {'raw': raw}
-
-message1 = body
-message = (
-    service.users().messages().send(
-        userId="me", body=message1).execute())
-print('Message Id: %s' % message['id'])
-
-""" FINISH """
+    message1 = body
+    message = (
+        service.users().messages().send(
+            userId="me", body=message1).execute())
+    print('Message Id: %s' % message['id'])
 
 
 def search(xlist, platform):
@@ -109,6 +107,7 @@ def primelist(n):
         if p:
             listp.append(i)
     listp.sort()
+    # print(listp)
     return listp
 
 
@@ -190,6 +189,8 @@ def row_echelon(a, p=-1):
         # we perform REF on matrix from second column
         b = row_echelon(a[:, 1:], p=p)
         # and then add the first zero-column back
+        with open("Text/matriz.txt", "a", encoding='utf-8') as f1:
+            f1.write(str(b) + "\n")
         return np.hstack([a[:, :1], b])
 
     # if non-zero element happens not in the first row,
@@ -223,7 +224,7 @@ def gauss(a1, b1, c, d):
     """ Gauss Elimination for Ax=b where x has non-limited variables"""
     # a = matrix, b = vector result, c = limited variables, d = operations mod d
     # print("BEGIN")
-    # print(a)
+    # print(a1)
     # print(b)
     # print(c)
     # print(solution)
@@ -273,7 +274,7 @@ def gauss(a1, b1, c, d):
                         # print('[' + str(a[i][:]) + ']')
                         # print(solution[n])
                         # print(x, i, j, n, a[i][n], b[i][0])
-                        b[i][0] = int((b[i][0] - a[i][n] * solution[n]) % d)
+                        b[i][0] = int((b[i][0] - (a[i][n] * solution[n]) % d) % d)
                         # print(b[i][0])
                     # print('')
                     # print('[' + str(a[i][:]) + ']')
@@ -285,6 +286,9 @@ def gauss(a1, b1, c, d):
                     # print(b[i])
                     break
         # print(np.transpose(solution))
+        with open("Text/" + 'debug' + ".txt", "a", encoding='utf-8') as f1:
+            f1.write(str(x) + "|" + str(len(ad)) + "|" + str(np.transpose(solution)))
+            f1.write('\n')
         r = np.concatenate((r, solution), axis=1)
         # print(np.transpose(a.dot(solution)))
         # print("END")
@@ -297,9 +301,14 @@ def gauss(a1, b1, c, d):
 def facdifsquare(n, s, list1=None) -> int:
     """ Factorization of n using x^2-y^2=(x+y)(x-y) identity"""
     # Use this function in a smart way, big n with small s and small n with big s... Does not mix or your computer may
-    # crash due to overflow (I don't want to prevent that so be aware)
+    # The parameter s isn't need but im lazy to swap it along the code, be free to give any value to him.
     # list1 is type []
     # OPTIMIZED WITH LINEAR ALGEBRA
+    asss = math.log(n, math.e) * math.log(math.log(n, math.e), math.e)
+    s = int(math.ceil(pow(math.e, isqrt(asss))))
+    iiii = int(math.ceil(pow(math.e, isqrt(2 * asss))))
+    if n == 1:
+        return list1
     if list1 is None:
         list1 = []
     listp = primelist(s)
@@ -310,15 +319,15 @@ def facdifsquare(n, s, list1=None) -> int:
         listk = []
         listj = []
         j = 0
-        for i in range(0, 100000):
+        for i in range(0, iiii):
             listaux = []
-            listaux = facsmall(pow(mc + i, 2) % n, s, listp)
+            listaux = facsmall(pow((mc + i) % n, 2) % n, s, listp)
             with open("Text/" + 'debug' + ".txt", "a", encoding='utf-8') as f1:
                 straux = str(i) + ":" + str(listaux)
                 f1.write(straux)
                 f1.write('\n')
             if listaux[len(listaux) - 1] <= listp[len(listp) - 1]:  # The biggest prime lesser than s
-                listk.append(int(pow(mc + i, 2) % n))
+                listk.append(int(pow((mc + i) % n, 2) % n))
                 listj.append(mc + i)
                 j = j + 1
                 # print(mc + i)
@@ -385,6 +394,10 @@ def facdifsquare(n, s, list1=None) -> int:
                 # print("Non Trivial Factor: ", gcdtest)
                 list1.append(gcdtest)
                 return facdifsquare(int(n / gcdtest), s, list1)
+            else:
+                with open("Text/debug.txt", "a", encoding='utf-8') as f1:
+                    f1.write(str(i) + str(gcdtest))
+        list1.append(n)
         return list1
         # print(c)
     else:
@@ -407,7 +420,7 @@ def facdifsquare(n, s, list1=None) -> int:
                     if composite(d1):
                         while search(list1, d1) != -1:
                             del (list1[search(list1, d1)])
-                        list1 = (facdifsquare(d1, list1, s))
+                        list1 = (facdifsquare(d1, s, list1))
                     if composite(d2):
                         while search(list1, d2) != -1:
                             del (list1[search(list1, d2)])

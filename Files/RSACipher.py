@@ -12,6 +12,8 @@ from random import seed
 from io import StringIO
 from random import randint
 from datetime import datetime
+from subprocess import Popen, CREATE_NEW_CONSOLE
+from sys import executable
 
 from FrequencySymbolsTable import FreqSymEng
 from FrequencySymbolsTable import EngList
@@ -34,17 +36,14 @@ def search(xlist, platform):
     return -1
 
 
-# subprocess.Popen("Teste.py", shell=True)
-# Funciona mas aparentemente é estritamente em segundo plano.
-# Work perfectly as expected
-# os.startfile('Teste.py') # Agradecimentos a @Breno pelo auxílio
+print(Functions.facdifsquare(183812381237, 1))
+
+# os.startfile('Call.py', 'open', "-Functions.primelist(100) -1")
+# Agradecimentos a @Breno pelo auxílio
 
 
-# print(Functions.facsmall(9788111, 1000))
-# print(Functions.facdifsquare(50729878697299, 10000))
-# list1.sort()
-# print(list1)
-os.startfile(Functions)
+# Functions.gmail('again')
+# os.startfile(Functions.py)
 
 print("Right now this code read 223 Symbols, it's just for educational purposes")
 x = input("You want Encrypt[e] or Decrypt[d] your message?")
