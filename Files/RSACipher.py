@@ -36,14 +36,14 @@ def search(xlist, platform):
     return -1
 
 
-print(Functions.facdifsquare(183812381237, 1))
+print(Functions.facdifsquare(9788111, 1))
 
 # os.startfile('Call.py', 'open', "-Functions.primelist(100) -1")
 # Agradecimentos a @Breno pelo auxílio
 
 
 # Functions.gmail('again')
-# os.startfile(Functions.py)
+# os.startfile('Functions.py')
 
 print("Right now this code read 223 Symbols, it's just for educational purposes")
 x = input("You want Encrypt[e] or Decrypt[d] your message?")

@@ -15,6 +15,28 @@ import datetime
 sys.setrecursionlimit(2147483647)  # Just to be safe, linalg in facdifsquare need really deep recursion
 
 
+class Equation:
+    def __init__(self, x=0, y=''):
+        self.x = x
+        self.y = y
+
+    def as_list(self):
+        aplus = [self.x, self.y]
+        return aplus
+
+    def __add__(self, other):
+        x = self.x + other.x
+        if other.y[0] == '-':
+            y = self.y + '-' + other.y
+        else:
+            y = self.y + '+' + other.y
+        return Equation(x, y)
+
+
+# a = Equation(2, 'x1')+Equation(3, 'x3')
+# print(a.as_list()[1])
+
+
 def gmail(text):
     """ SETTING UP THE GMAIL FEEDBACK SPAM SYSTEM """
     SCOPES = ['https://www.googleapis.com/auth/gmail.send',
@@ -307,10 +329,10 @@ def facdifsquare(n, s, list1=None) -> int:
     asss = math.log(n, math.e) * math.log(math.log(n, math.e), math.e)
     s = int(math.ceil(pow(math.e, isqrt(asss))))
     iiii = int(math.ceil(pow(math.e, isqrt(2 * asss))))
-    if n == 1:
-        return list1
     if list1 is None:
         list1 = []
+    if n == 1:
+        return list1
     listp = primelist(s)
     if n > pow(listp[len(listp) - 1], 2):
         # If the number is too big for us to check each case.
