@@ -1,6 +1,8 @@
 import math
 import sys
 import numpy as np
+import sympy as sym
+import scipy.linalg
 import pickle
 import os
 import base64
@@ -15,26 +17,13 @@ import datetime
 sys.setrecursionlimit(2147483647)  # Just to be safe, linalg in facdifsquare need really deep recursion
 
 
-class Equation:
-    def __init__(self, x=0, y=''):
+class Pol1:
+    def _init_(self, x=list):
         self.x = x
-        self.y = y
 
     def as_list(self):
-        aplus = [self.x, self.y]
+        aplus = [self.x]
         return aplus
-
-    def __add__(self, other):
-        x = self.x + other.x
-        if other.y[0] == '-':
-            y = self.y + '-' + other.y
-        else:
-            y = self.y + '+' + other.y
-        return Equation(x, y)
-
-
-# a = Equation(2, 'x1')+Equation(3, 'x3')
-# print(a.as_list()[1])
 
 
 def gmail(text):
@@ -251,72 +240,131 @@ def gauss(a1, b1, c, d):
     # print(c)
     # print(solution)
     ad = []
+    adx = []
     r = np.zeros((len(a1[0]), 1))
     for i in range(len(a1[0])):
         if search(c, i) == -1:
             ad.append(i)
-    for x in range(len(ad)):
-        # print(x)
-        a = a1.copy()  # For some reason python treat matrix usual equalities as some
-        b = b1.copy()  # kind of function which affects the original.
-        # print("BEFORE")
-        # print(a)
-        # print(aux)
-        solution = np.zeros((len(a[0]), 1))
-        for l in range(len(a[0])):
-            for k in range(len(a)):
-                # print("l: ", l)
-                if l == ad[x]:
-                    # print(k, l, ad[x], "Put 1")
-                    a[k][l] = 1 * a[k][l]
-                    solution[l][0] = 1
-                elif search(ad, l) != -1:
-                    # print(k, l, ad[x], "Put 0")
-                    a[k][l] = 0
-                    solution[l][0] = 0
-        # print("AFTER")
-        # print(a)
-        # print(aux)
-        # a = row_echelon(a, p=2)
-        # print("First canonical")
-        for i in range(len(a) - 1, -1, -1):  # Actually this -1 made my went insane
-            for j in range(0, len(a[0]) - 1):
-                if a[i][j] != 0:
-                    # print(i, j)
-                    # c[search(c, j)] = -1
-                    # print("Found: ", i)
-                    # print("Found: ", j)
-                    # print(b[i])
-                    # print(np.transpose(solution))
-                    for n in range(j + 1, len(a[0])):
-                        # print(b)
-                        # print(a)
-                        # print('')
-                        # print(np.transpose(solution))
-                        # print('[' + str(a[i][:]) + ']')
-                        # print(solution[n])
-                        # print(x, i, j, n, a[i][n], b[i][0])
-                        b[i][0] = int((b[i][0] - (a[i][n] * solution[n]) % d) % d)
-                        # print(b[i][0])
+    # print(x)
+    a = a1.copy()  # For some reason python treat matrix usual equalities as some
+    b = b1.copy()  # kind of function which affects the original.
+    # print("BEFORE")
+    # print(a)
+    # print(aux)
+
+    solution = np.zeros((len(a[0])), dtype=object)
+    # print(solution)
+    # print(np.transpose(solution))
+    # print(ad)  # Free Variables
+    # print(c)   # Limited Variables
+    # print(a)   # Triangular Matriz
+    # for l in range(len(a[0])):
+    #     for k in range(len(a)):
+    #         # print("l: ", l)
+    #         if l == ad[x]:
+    #             # print(k, l, ad[x], "Put 1")
+    #             a[k][l] = 1 * a[k][l]
+    #             solution[l][0] = 1
+    #         elif search(ad, l) != -1:
+    #             # print(k, l, ad[x], "Put 0")
+    #             a[k][l] = 0
+    #             solution[l][0] = 0
+    for l in range(len(a[0])):
+        if search(ad, l) != -1:
+            solution[l] = str(l)
+        else:
+            solution[l] = -1
+    # print(solution)
+    # print(solution[5])
+    # print(np.transpose(solution))
+    # print(a)
+    # print(aux)
+    # a = row_echelon(a, p=2)
+    # print("First canonical")
+    # print(a)
+    for i in range(len(a) - 1, -1, -1):  # Actually this second -1 make my went insane
+        sol = []
+        # print(i, solution)
+        t = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18',
+             '19']
+        for j in range(0, len(a[0])):
+            if a[i][j] != 0 and search(ad, j) == -1:
+                # print(i, j)
+                # c[search(c, j)] = -1
+                # print("Found: ", i)
+                # print("Found: ", j)
+                # print(b[i])
+                # print(np.transpose(solution))
+                for n in range(j + 1, len(a[0])):
+                    # print(b)
+                    # print(a)
                     # print('')
-                    # print('[' + str(a[i][:]) + ']')
-                    solution[j][0] = b[i][0]
-                    # print(b[i])
-                    b[i][0] = 0
                     # print(np.transpose(solution))
                     # print('[' + str(a[i][:]) + ']')
-                    # print(b[i])
-                    break
-        # print(np.transpose(solution))
-        with open("Text/" + 'debug' + ".txt", "a", encoding='utf-8') as f1:
-            f1.write(str(x) + "|" + str(len(ad)) + "|" + str(np.transpose(solution)))
-            f1.write('\n')
-        r = np.concatenate((r, solution), axis=1)
-        # print(np.transpose(a.dot(solution)))
-        # print("END")
-        # print(a)
-        # print(c)
-        # print(solution)
+                    # print(solution[n])
+                    # print(i, j, n, a[i][n], int(b[i]), solution[n])
+                    if (solution[n] != '0' and solution[n] != '-1') and a[i][n] != 0:
+                        # print(i, j)
+                        solution[j] = solution[n] + ' ' + ''.join(str(n))
+                        sol.append(str(n))
+                    # print(b[i][0])
+                # print('')
+                # print(sol)
+                # print(list(set(t) - set(sol)))
+                # print('[' + str(a[i][:]) + ']')
+                if not sol:
+                    sol.append('0')
+                # if type(sol) == str:
+                #     solution[j] = sol.strip('][').split(', ')
+                # print(sol)
+                if len(sol) < 2:
+                    solution[j] = ''.join(str(e) for e in sol)
+                else:
+                    solution[j] = ' '.join(str(e) for e in sol)
+                # print(b[i])
+                # for z in range(len(solution)-1, -1, -1):
+                    # print(z, solution[z])
+                # b[i][0] = 0
+                print('')
+                # print(np.transpose(solution))
+                # print('[' + str(a[i][:]) + ']')
+                # print(b[i])
+                break
+    # RETURN HERE
+    for z in range(len(solution) - 1, -1, -1):
+        print(z, type(solution[z]), solution[z])
+        for y in range(len(solution[z]) - 1, -1, -1):
+            if int(solution[z][y]) > z:
+                del solution[z][search(solution[z], z)]
+                solution[z] += solution[y]
+    # for z in range(len(solution) - 1, -1, -1):
+        # print(z, type(solution[z]), solution[z])
+    # print(np.transpose(solution))
+    # print(solution)
+    # for i in range(len(solution) - 1, -1, -1):
+    #    if search(ad, i) == -1:
+    #        mij = solution[i]
+    #        print('mij', i, mij)
+    #        if set(ad).intersection(mij) == -1:
+    #            # print(mij)
+    #            for k in range(len(mij)):
+    #                if set(ad).intersection(mij[k]) != -1:
+    #                    del mij[search(ad, mij[k])]
+    #                    for l in range(i + 1, len(solution) - 1):
+    #                        mij.append(solution[l])
+    #        solution[i] = mij
+    # print(np.transpose(solution))
+    # print(np.transpose(solution))
+    with open("Text/" + 'debug' + ".txt", "a", encoding='utf-8') as f1:
+        # f1.write(str(x) + "|" + str(len(ad)) + "|" + str(np.transpose(solution)))
+        f1.write('\n')
+    # print(np.transpose(solution))
+    # r = np.concatenate((r, solution), axis=1)
+    # print(np.transpose(a.dot(solution)))
+    # print("END")
+    # print(a)
+    # print(c)
+    # print(solution)
     return np.transpose(np.delete(r, 0, 1))
 
 
@@ -326,9 +374,11 @@ def facdifsquare(n, s, list1=None) -> int:
     # The parameter s isn't need but im lazy to swap it along the code, be free to give any value to him.
     # list1 is type []
     # OPTIMIZED WITH LINEAR ALGEBRA
-    asss = math.log(n, math.e) * math.log(math.log(n, math.e), math.e)
-    s = int(math.ceil(pow(math.e, isqrt(asss))))
-    iiii = int(math.ceil(pow(math.e, isqrt(2 * asss))))
+    # asss = math.log(n, math.e) * math.log(math.log(n, math.e), math.e)
+    # s = int(math.ceil(pow(math.e, isqrt(asss))))
+    # iiii = int(math.ceil(pow(math.e, isqrt(2 * asss))))
+    s = 50
+    iiii = 100000
     if list1 is None:
         list1 = []
     if n == 1:
@@ -341,7 +391,7 @@ def facdifsquare(n, s, list1=None) -> int:
         listk = []
         listj = []
         j = 0
-        for i in range(0, iiii):
+        for i in range(1, iiii):  # OH GOD I FORGOT THESE 1 ZZZZZ
             listaux = []
             listaux = facsmall(pow((mc + i) % n, 2) % n, s, listp)
             with open("Text/" + 'debug' + ".txt", "a", encoding='utf-8') as f1:
@@ -362,6 +412,7 @@ def facdifsquare(n, s, list1=None) -> int:
             if j == len(listp) + 5:  # Actually a small increment to be sure that we don't have many Solutions
                 break
         # print(listk)
+        # print(listj)
         if len(listk) < len(listp):
             return -1  # Actually this error is due to no equations
         listaux2 = np.zeros((len(listp), len(listp) + 5))
@@ -370,6 +421,7 @@ def facdifsquare(n, s, list1=None) -> int:
             for k in range(0, len(listp)):
                 listaux3 = facsmall(listk[i], s, listp)
                 if listaux3[l] == listp[k]:
+                    # print(i, k, l, listaux3, listp[k], listaux3.count(listp[k]))
                     listaux2[k][i] = int(listaux3.count(listp[k]) % 2)
                     l = l + listaux3.count(listp[k])
                 if l > len(listaux3) - 1:
@@ -380,10 +432,13 @@ def facdifsquare(n, s, list1=None) -> int:
                 # print(listaux3)
                 # print(int(listaux2[k][i]))
                 # print('')
+            # print('[' + str(listaux2[k][:]) + ']')
         # listaux2 = row_echelon(listaux2)
         listaux4 = np.zeros((len(listp), 1))
         listaux5 = np.zeros((1, len(listp)))
+        # print(listaux2)
         listaux2 = row_echelon(listaux2, p=2)
+        # print(listaux2)
         l1 = []
         for i in range(len(listp)):
             for j in range(len(listp) + 5):
