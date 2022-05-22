@@ -231,6 +231,14 @@ def row_echelon(a, p=-1):
     return np.vstack([a[:1], np.hstack([a[1:, :1], b])])
 
 
+def parametrization(a, b):
+    """ Enter parametric vector, return particular value, magic"""
+    alen = len(a)
+    blen = len(b)
+    print(a)
+    print(b)
+
+
 def gauss(a1, b1, c, d):
     """ Gauss Elimination for Ax=b where x has non-limited variables"""
     # a = matrix, b = vector result, c = limited variables, d = operations mod d
@@ -282,11 +290,10 @@ def gauss(a1, b1, c, d):
     # a = row_echelon(a, p=2)
     # print("First canonical")
     # print(a)
+    solvec = np.array
     for i in range(len(a) - 1, -1, -1):  # Actually this second -1 make my went insane
         sol = []
         # print(i, solution)
-        t = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18',
-             '19']
         for j in range(0, len(a[0])):
             if a[i][j] != 0 and search(ad, j) == -1:
                 # print(i, j)
@@ -323,22 +330,77 @@ def gauss(a1, b1, c, d):
                     solution[j] = ' '.join(str(e) for e in sol)
                 # print(b[i])
                 # for z in range(len(solution)-1, -1, -1):
-                    # print(z, solution[z])
+                # print(z, solution[z])
                 # b[i][0] = 0
-                print('')
+                # print('')
                 # print(np.transpose(solution))
                 # print('[' + str(a[i][:]) + ']')
                 # print(b[i])
                 break
     # RETURN HERE
+    print(solution)
     for z in range(len(solution) - 1, -1, -1):
-        print(z, type(solution[z]), solution[z])
-        for y in range(len(solution[z]) - 1, -1, -1):
-            if int(solution[z][y]) > z:
-                del solution[z][search(solution[z], z)]
-                solution[z] += solution[y]
-    # for z in range(len(solution) - 1, -1, -1):
+        # print(z, solution[z])
+        solution[z] = list(solution[z].split(" "))
+    # print(solution[3][5])
+    for z in range(len(solution) - 1, -1, -1):
         # print(z, type(solution[z]), solution[z])
+        for y in range(len(solution[z]) - 1, -1, -1):
+            if int(solution[z][y]) > z and search(ad, z) == -1:
+                # print(z, y, solution[z])
+                solution[z][y] = solution[int(solution[z][y])]
+    # print('debug')
+    for z in range(len(solution) - 1, -1, -1):
+        # print('debug', z)
+        # print(solution[z])
+        tempsol3 = []
+        tempsol1 = str(solution[z])
+        tempsol = tempsol1.replace("[", '').replace("]", '').replace("'", '').replace(",", ' ')
+        # print(tempsol)
+        for z1 in range(len(solution[z])):
+            if (tempsol.count(str(solution[z][z1]))) % 2 == 1:
+                tempsol3.append(str(solution[z][z1]))
+            else:
+                tempsol3.append(str(solution[z][z1]))
+        solution[z] = tempsol3
+        # solution[z] = str((str(z1)+' ')*int((str(solution[z]).count(str(z1)+'\n')) % d)) + str(solution[
+        # z]).replace(str(z1) + ' ', '')
+        solution[z] = str(solution[z]).replace("['", '(')
+        solution[z] = str(solution[z]).replace("']", ')')
+
+        solution[z] = str(solution[z]).replace("'", '')
+        solution[z] = str(solution[z]).replace("[", '')
+        solution[z] = str(solution[z]).replace("]", '')
+        solution[z] = str(solution[z]).replace(",", '')
+        solution[z] = str(solution[z]).replace('"', '')
+        # print(solution[z])
+        for i in range(len(solution) - 1, z, -1):
+            if solution[z].count('(' + str(i) + ')') % d == 0:
+                solution[z] = solution[z].replace('(' + str(i) + ')', '')
+            if solution[z].count('(' + str(i) + ')') % d == 1:
+                solution[z] = solution[z].replace('(' + str(i) + ')', '')
+                solution[z] = solution[z] + '(' + str(i) + ')'
+            if solution[z].count('(' + str(i) + ')') != -1:
+                solution[z] = solution[z].replace('(' + str(i) + ')', '(' + str(solution[i]) + ')')
+                # print(z, "|", solution[z])
+        for i in range(z, len(solution)):
+            if solution[z].count('(' + str(i) + ')') % d == 0:
+                solution[z] = solution[z].replace('(' + str(i) + ')', '')
+            if solution[z].count('(' + str(i) + ')') % d == 1:
+                solution[z] = solution[z].replace('(' + str(i) + ')', '')
+                solution[z] = solution[z] + '(' + str(i) + ')'
+        solution[z] = solution[z].replace('()', ' ')
+        solution[z] = solution[z].replace(' ', '')
+        print(z, solution[z])
+
+    for i in range(len(ad)):
+        c1 = [0]*len(ad)
+        c1[i] = 1
+        print(c1)
+
+    print(parametrization(solution, c1))
+    # for z in range(len(solution) - 1, -1, -1):
+    # print(z, type(solution[z]), solution[z])
     # print(np.transpose(solution))
     # print(solution)
     # for i in range(len(solution) - 1, -1, -1):
@@ -356,7 +418,8 @@ def gauss(a1, b1, c, d):
     # print(np.transpose(solution))
     # print(np.transpose(solution))
     with open("Text/" + 'debug' + ".txt", "a", encoding='utf-8') as f1:
-        # f1.write(str(x) + "|" + str(len(ad)) + "|" + str(np.transpose(solution)))
+        for z in range(len(solution)):
+            f1.write(str(z) + "|" + str(len(ad)) + "|" + str(solution[z]))
         f1.write('\n')
     # print(np.transpose(solution))
     # r = np.concatenate((r, solution), axis=1)
@@ -364,8 +427,8 @@ def gauss(a1, b1, c, d):
     # print("END")
     # print(a)
     # print(c)
-    # print(solution)
-    return np.transpose(np.delete(r, 0, 1))
+
+    return solution
 
 
 def facdifsquare(n, s, list1=None) -> int:
@@ -374,11 +437,11 @@ def facdifsquare(n, s, list1=None) -> int:
     # The parameter s isn't need but im lazy to swap it along the code, be free to give any value to him.
     # list1 is type []
     # OPTIMIZED WITH LINEAR ALGEBRA
-    # asss = math.log(n, math.e) * math.log(math.log(n, math.e), math.e)
-    # s = int(math.ceil(pow(math.e, isqrt(asss))))
-    # iiii = int(math.ceil(pow(math.e, isqrt(2 * asss))))
-    s = 50
-    iiii = 100000
+    asss = math.log(n, math.e) * math.log(math.log(n, math.e), math.e)
+    s = int(math.ceil(pow(math.e, isqrt(asss))))
+    iiii = int(math.ceil(pow(math.e, isqrt(2 * asss))))
+    # s = 50
+    # iiii = 100000
     if list1 is None:
         list1 = []
     if n == 1:
