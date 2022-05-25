@@ -18,12 +18,19 @@ sys.setrecursionlimit(2147483647)  # Just to be safe, linalg in facdifsquare nee
 
 
 class Pol1:
-    def _init_(self, x=list):
+    def __init__(self, x=list):
         self.x = x
 
     def as_list(self):
         aplus = [self.x]
         return aplus
+
+
+def search(xlist, platform):
+    for i1 in range(len(xlist)):
+        if xlist[i1] == platform:
+            return i1
+    return -1
 
 
 def gmail(text):
@@ -391,44 +398,9 @@ def gauss(a1, b1, c, d):
                 solution[z] = solution[z] + '(' + str(i) + ')'
         solution[z] = solution[z].replace('()', ' ')
         solution[z] = solution[z].replace(' ', '')
+        if solution[z] == '':
+            solution[z] = '(0)'
         print(z, solution[z])
-
-    for i in range(len(ad)):
-        c1 = [0]*len(ad)
-        c1[i] = 1
-        print(c1)
-
-    print(parametrization(solution, c1))
-    # for z in range(len(solution) - 1, -1, -1):
-    # print(z, type(solution[z]), solution[z])
-    # print(np.transpose(solution))
-    # print(solution)
-    # for i in range(len(solution) - 1, -1, -1):
-    #    if search(ad, i) == -1:
-    #        mij = solution[i]
-    #        print('mij', i, mij)
-    #        if set(ad).intersection(mij) == -1:
-    #            # print(mij)
-    #            for k in range(len(mij)):
-    #                if set(ad).intersection(mij[k]) != -1:
-    #                    del mij[search(ad, mij[k])]
-    #                    for l in range(i + 1, len(solution) - 1):
-    #                        mij.append(solution[l])
-    #        solution[i] = mij
-    # print(np.transpose(solution))
-    # print(np.transpose(solution))
-    with open("Text/" + 'debug' + ".txt", "a", encoding='utf-8') as f1:
-        for z in range(len(solution)):
-            f1.write(str(z) + "|" + str(len(ad)) + "|" + str(solution[z]))
-        f1.write('\n')
-    # print(np.transpose(solution))
-    # r = np.concatenate((r, solution), axis=1)
-    # print(np.transpose(a.dot(solution)))
-    # print("END")
-    # print(a)
-    # print(c)
-
-    return solution
 
 
 def facdifsquare(n, s, list1=None) -> int:
@@ -440,8 +412,8 @@ def facdifsquare(n, s, list1=None) -> int:
     asss = math.log(n, math.e) * math.log(math.log(n, math.e), math.e)
     s = int(math.ceil(pow(math.e, isqrt(asss))))
     iiii = int(math.ceil(pow(math.e, isqrt(2 * asss))))
-    # s = 50
-    # iiii = 100000
+    s = 50
+    iiii = 100000
     if list1 is None:
         list1 = []
     if n == 1:
